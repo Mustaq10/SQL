@@ -1,0 +1,200 @@
+---1
+select pname from programmer
+where salary=(select max(salary) from programmer
+where (prof1='C' or prof2='C'));
+
+---2
+select pname from programmer
+where salary=(select max(salary) from programmer
+where (prof1='Cobol' or prof2='Cobol'))
+ and gender='F';
+
+---3
+select pname from programmer 
+where salary=(select max(salary) from programmer group by prof1));
+
+---4
+select pname from programmer
+where floor((sysdate-doj)/365)=(select min(floor((sysdate-doj)/365)) from programmer);
+
+---5
+select pname from programmer
+where floor((sysdate-doj)/365)=(select max(floor((sysdate-doj)/365)) from programmer)
+and (prof1='Pascal' or prof2='Pascal')
+and gender='M';
+
+---6
+select prof1,count(prof1) from
+(select prof1 from programmer union all
+select prof2 from programmer)
+having count(prof1) in (1) 
+group by prof1;
+
+---7------not solved
+select pname from studies having prof1 in
+(select prof1,count(prof1) from
+(select prof1 from programmer union all
+select prof2 from programmer)
+having count(prof1) in (1) 
+group by prof1);
+
+---8
+select pname age from programmer
+where(prof1='Dbase' or prof2='Dbase') and
+dob=(select max(dob) from programmer
+where(prof1='Dbase' or prof2='Dbase'));
+
+---9
+select pname from programmer
+where gender='F'
+and salary>3000
+and prof1 not in ('C','C++','Oracle')
+and prof2 not in('C','C++','Oracle');
+
+---10
+select distinct splace,count(splace) from studies
+having count(splace) in (select max(count(splace)) from studies
+group by splace)
+group by splace;
+
+---13
+select course from studies
+where cost=(select max(cost) from studies);
+
+---14
+select splace from studies where
+course=(select course from studies
+where cost=(select max(cost) from studies))
+and cost=(select max(cost) from studies);
+
+---15
+
+---17
+
+---18
+select title from software
+where dcost=(select max(dcost) from software);
+
+---19
+select title from software
+where dcost=(select min(dcost) from software);
+
+---20
+select pname from software where title=(
+select title from software
+where sold =(select min(sold) from software));
+
+---21
+select dev_d from software where title=(
+select title from software where 
+(scost*sold)=(select max(scost*sold) from software));
+
+---22
+select title from software where
+abs(dcost-scost)=(select min(abs(dcost-scost)) from software);
+
+---23
+select title from software where
+dev_d='Pascal' and
+dcost=(select max(dcost) from software where dev_d='Pascal');
+
+---24
+select distinct dev_d from software having count(dev_d) in
+(select max(count(dev_d)) from software
+group by dev_d)
+group by dev_d;
+
+---25
+select pname,count(pname) from software having count(pname) in
+(select max(count(pname)) from software group by pname)
+group by pname;
+
+---26
+select pname,title,dcost from software
+where dcost =(select max(dcost) from software);
+
+---27
+select title,sold from software where
+sold<(select round(avg(sum(sold))) from software group by title)
+order by sold;
+
+---28
+select distinct pname from software
+where (scost*sold)>(2*dcost);
+
+---29
+
+
+---31
+select pname,dob from programmer
+where 
+dob=(select max(dob) from programmer where dob like '%65%');
+
+---32
+select pname,doj from programmer
+where 
+doj=(select min(doj) from programmer where gender='F' and doj like '%82%');
+
+---33
+
+
+--------verify---34
+select pname,ceil((sysdate-doj)/365) service from programmer
+where ceil((sysdate-doj)/365)=20;
+
+---35
+select title,(dcost-(sold*scost)) recovery from software
+where dcost>(sold*scost);
+
+---36
+select title from software
+where sold=0;
+
+---37
+select pname,title,dcost from software
+where pname='Mary';
+
+---38
+select distinct splace from studies;
+
+---39
+select count(distinct(course)) from studies;
+
+---41
+select pname from programmer
+where length(pname)<=5;
+
+---42
+select count(distinct pname) from programmer
+where gender='F' and
+(prof1='Cobol' or prof2='Cobol') and
+(floor((sysdate-doj)/365)>2);
+
+---43
+select pname from programmer
+where length(pname)=(select min(length(pname)) from programmer);
+
+---44
+select avg(dcost) cost from software
+where dev_d='Cobol';
+
+---46
+
+
+---47
+select salary from programmer
+where gender='M' and
+prof1 !='Cobol'
+and prof2!='Cobol';
+
+---48
+select title,scost,dcost,(scost-dcost) d from software
+order by d desc;
+
+---49
+select title from software
+where title  like '% %';
+
+---50
+select pname,'programmer' job,dob,doj from programmer
+where substr(dob,4,2)=substr(doj,4,2);

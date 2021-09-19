@@ -1,0 +1,49 @@
+---1
+
+
+---2
+select * from software natural join programmer
+where gender='M' and
+salary>3000;
+
+---3
+select * from software natural join programmer
+where gender='F' and
+dev_d='Pascal';
+
+---4
+select * from software natural join programmer natural join studies
+where gender='F' and
+dev_d='C' and
+splace='Pragathi';
+
+---5
+
+---6
+
+---7
+select pname,gender,salary,title,dev_d,scost,dcost,sold from software natural join programmer
+where (gender='M' and salary<2500) or
+(gender='F' and salary>2500);
+
+---8
+select pname,prof1,prof2,title,dev_d from software natural join programmer
+where dev_d!=prof1;
+
+---9
+select pname,prof1,prof2,title,dev_d from software natural join programmer
+where dev_d!=prof1 and dev_d!=prof2;
+
+---10
+select pname,gender,splace,title,dev_d from software natural join programmer natural join studies
+where gender='M' and
+splace='Sabhari';
+
+---11
+select distinct pname from programmer natural join studies
+where pname not in (select distinct pname from software);
+
+---12
+select sum(dcost) from software natural join studies
+where splace='Apple';
+commit;

@@ -1,0 +1,158 @@
+---1
+select scost from software
+where dev_d='Pascal';
+
+---2
+select pname,
+round((sysdate - dob)/365) as age
+from programmer;
+
+---3
+select pname from studies
+where course='DAP';
+
+---4
+select title,dev_d,sold from software
+where sold=(select max(sold) from software);
+
+---5
+select pname,dob from programmer
+where dob like '%JAN%' ;
+
+---6
+select distinct course,cost from studies
+where cost=(select min(cost) from studies);
+
+---7
+select count(*) from studies where course='PGDCA';
+
+---8
+select sum(scost*sold) from software
+where dev_d='C' ;
+
+---9
+select * from software
+where pname='Ramesh';
+
+---10
+select count(*) from studies
+where splace='Sabhari';
+
+---11
+select * from software
+where (scost*sold)>2000;
+
+---12
+select title,ceil(dcost/scost)as no_of_packages from software;
+
+---13
+select title from software
+where (scost*sold)>dcost;
+
+---14
+select scost as sp,title
+from software
+where dcost=(select max(dcost) from software where dev_d='Basic') and dev_d='Basic';
+
+---15
+select count(*) from software
+where dev_d='Dbase';
+
+---16
+select count(*) from studies
+where splace='Pragathi';
+
+---17
+select count(*) from studies where
+cost between 5000 and 10000;
+
+---18
+select round(avg(cost)) as average_fee from studies;
+
+---19
+select * from programmer
+where prof1='C' or prof2='C';
+
+---20
+select * from programmer
+where prof1 in ('Cobol','Pascal') or prof2 in ('Cobol','Pascal');
+
+---21
+select * from programmer
+where prof1 not in ('C','Pascal') and prof2 not in ('C','Pascal');
+
+---22
+select pname name,round((sysdate-dob)/365) age from programmer
+where round((sysdate-dob)/365)=(select max(round((sysdate-dob)/365)) from programmer)
+and gender='M';*/
+
+---23
+select round(avg(floor((sysdate-dob)/365))) avg_age from programmer
+where gender='F';
+
+---24
+select pname,floor((sysdate-doj)/365) as exp from programmer
+order by exp desc;
+
+---25
+select pname from programmer
+where substr(dob,4,3)=substr(sysdate,4,3);
+
+---26
+select distinct(prof1) from programmer
+union
+select distinct prof2 from programmer;
+
+---27
+select round(avg(salary)) avr_sal from programmer;
+
+---28
+select count(*) male_count from programmer
+where gender='M';
+
+---29
+select count(*) "2000-4000" from programmer
+where salary between 2000 and 4000;
+
+---30
+select * from programmer where
+prof1 not in ('Fortran','Cobol','Pascal') and
+prof2 not in ('Fortran','Cobol','Pascal');
+---or
+select * from programmer where
+prof1 not in ('Fortran','Cobol','Pascal')
+intersect
+select * from programmer where
+prof2 not in ('Fortran','Cobol','Pascal');
+
+---31
+select substr(doj,4,3),count(*)  from programmer group by substr(doj,4,3)
+having count(*) in (select max(count(*)) from programmer group by substr(doj,4,3));
+
+---32
+select prof1,count(*) from
+(select prof1 from programmer
+union all
+select prof2 from programmer)
+group by prof1
+having count(*) in( select max(count(*)) from (
+select prof1 from programmer
+union all
+select prof2 from programmer)
+group by prof1);
+
+---33
+select pname from programmer
+where gender='F' and
+salary>(select max(salary) from programmer
+where gender='M');
+
+---34
+select prof1,count(*) count from programmer
+group by prof1
+having count(*) in (select max(count(*)) from programmer group by prof1);
+
+---35
+alter table programmer add constraint p_pk  foreign key(pname) references software;
+alter table programmer add constraint prim1 primary key(pname);
+select * from programmer;

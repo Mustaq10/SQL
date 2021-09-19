@@ -1,0 +1,129 @@
+---1
+select dev_d,count(*) from software
+group by dev_d;
+
+---2
+select pname,count(*) from software
+group by pname;
+
+---3
+select gender,count(*) from programmer
+group by gender;
+
+---4
+select dev_d,max(scost),max(sold) from software
+group by dev_d;
+
+---5
+select substr(dob,7,2),count(*) from programmer
+group by substr(dob,7,2);
+
+---6
+select substr(doj,7,2),count(*) no_of_people from programmer
+group by substr(doj,7,2);
+
+---7
+select substr(dob,4,2),count(*) no_of_people from programmer
+group by substr(dob,4,2);
+
+---8
+select substr(doj,4,2),count(*) no_of_people from programmer
+group by substr(doj,4,2);
+
+---9
+select prof1,count(*) from programmer
+group by prof1;
+
+---10
+select prof2,count(*) from programmer
+group by prof2;
+
+---11
+select distinct salary,count(*) from programmer
+group by salary;
+
+---12
+select splace,count(*) from studies
+group by splace;
+
+---13
+select course,count(*) from studies
+group by course;
+
+---14
+select dev_d,sum(dcost) from software
+group by dev_d;
+
+---15
+select dev_d,round(sum(scost)) from software
+group by dev_d;
+
+---16
+select pname,sum(dcost) as total_cost from software group by pname;
+
+---17
+select pname,sum(sold) from software
+group by pname;
+
+---18
+select pname,sum(scost*sold) from software
+group by pname;
+
+---19
+select pname,title,dev_d,sum(sold*scost )from software
+group by pname,dev_d ;
+
+
+---20
+select dev_d,count(*),round(avg(dcost)) development,round(avg(scost*sold)) sales,round(avg(scost)) price from software
+group by dev_d;
+
+---21
+select pname,min(dcost),max(dcost) from software group by pname;
+
+---22
+select splace,count(distinct(course)) no_of_courses,avg(distinct(cost)) from studies
+group by splace;
+
+---23
+select splace,count(*) from studies
+group by splace
+order by splace asc;
+
+---24
+select pname,sex from programmer order by sex;
+---25
+select pname,title from software order by pname;
+---26
+select dev_d,count(title) from software
+where dev_d not in ('C','C++')
+group by dev_d
+order by dev_d asc;
+
+---27
+select dev_d,count(*) from software
+where dcost<1000
+group by dev_d;
+
+---28
+select dev_d,round(avg(scost*sold)) scost,round(avg(dcost)) dcost,round((avg(scost*sold)-avg(dcost))) "avg.diff" from software
+group by dev_d
+order by dev_d asc;
+
+---29
+select pname,scost,dcost,(dcost-(sold*scost)) recovery from software
+where dcost>(sold*scost) 
+order by pname;
+
+---30
+select max(salary),min(salary),avg(salary) from
+(select * from programmer where salary>2000);
+
+---31
+select pname,salary from programmer
+where salary=(select max(salary) from programmer);
+
+---32
+select pname,salary from programmer where salary=
+(select max(salary) from programmer
+where salary!= /* or not in*/ (select max(salary) from programmer));
